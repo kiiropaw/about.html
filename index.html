@@ -1,200 +1,3 @@
-
-<script type="text/javascript">
-// <![CDATA[
-var border=100; // how wide is each border in pixels
-var effects=0; // how many of the effect are on the page
-var speed=70; // how fast is the animation (lower is faster)
-var colours=new Array("#9cf", "#c9f", "#fc9", "#f9c", "#cf9", "#9fc", "#6ff", "#f6f", "#ff6");
-// above line lists colours for the groovy effect (the list can be as long or short as you like)
-
-/****************************
-*1970s Groovy WebPage Effect*
-*(c)2008-13 mf2fm web-design*
-*  http://www.mf2fm.com/rv  *
-* DON'T EDIT BELOW THIS BOX *
-****************************/
-
-function addLoadEvent(funky) {
-  var oldonload=window.onload;
-  if (typeof(oldonload)!='function') window.onload=funky;
-  else window.onload=function() {
-    if (oldonload) oldonload();
-    funky();
-  }
-}
-
-addLoadEvent(yowzah);
-
-var swide, shigh, boddie;
-var h=new Array();
-var v=new Array();
-var op=1/(effects+1);
-function yowzah() { if (document.getElementById) {
-  var i, d, s;
-  boddie=document.createElement("div");
-  s=boddie.style;
-  s.position="fixed";
-  s.backgroundColor="transparent";
-  s.top="0px";
-  s.left="0px";
-  s.width="100%";
-  s.zIndex="-1";
-  set_width();
-  i=document.body.style.backgroundColor;
-  if (document.body.parentNode) {
-    if (i) document.body.parentNode.style.backgroundColor=i;
-    document.body.style.backgroundColor="transparent";
-  }
-  document.body.insertBefore(boddie, document.body.firstChild);
-  for (i=0; i<effects*10; i+=10) {
-    d=document.createElement("div");
-    s=d.style;
-    s.left="0px";
-	s.width="100%";
-    h[i]=Math.floor(Math.random()*(shigh-border)/3);
-    h[i+1]=shigh-Math.floor(Math.random()*(shigh-border)/3);
-    h[i+2]=(Math.random()<0.5?1:-1)*scat(0);
-    h[i+3]=(Math.random()<0.5?1:-1)*scat(h[i+2]);
-    s.position="absolute";
-    s.top=h[i]+"px";
-    s.height=(h[i+1]-h[1])+"px";
-    s.borderStyle="solid";
-    s.borderWidth=border+"px 0px";
-    jazzy(s, 'borderTopColor');
-	jazzy(s, 'borderBottomColor');
-    jazzy(s, 'backgroundColor');
-    s.opacity=op;
-    if (navigator.appName=="Microsoft Internet Explorer") s.filter="alpha(opacity="+(100*op)+")";
-    h[i+5]=s;
-    boddie.appendChild(d);
-  }
-  for (i=0; i<effects*10; i+=10) {
-    d=document.createElement("div");
-    s=d.style;
-	s.top="0px";
-    s.height="100%";
-    v[i]=Math.floor(Math.random()*(swide-border)/3);
-    v[i+1]=swide-Math.floor(Math.random()*(swide-border)/3);
-    v[i+2]=(Math.random()<0.5?1:-1)*scat(0);
-    v[i+3]=(Math.random()<0.5?1:-1)*scat(v[i+2]);
-    s.position="absolute";
-    s.left=v[i]+"px";
-    s.width=(v[i+1]-v[i])+"px";
-    s.borderStyle="solid";
-    s.borderWidth="0px "+border+"px";
-    jazzy(s, 'borderLeftColor');
-    jazzy(s, 'borderRightColor');
-    jazzy(s, 'backgroundColor');
-    if (navigator.appName=="Microsoft Internet Explorer") s.filter="alpha(opacity="+(100*op)+")";
-    else s.opacity=op;
-    v[i+5]=s;
-    boddie.appendChild(d);
-  }
-  setInterval('groovy()', speed);
-}}
-
-var old_jazz=false;
-function jazz() {
-	var new_jazz;
-	do { new_jazz=colours[Math.floor(Math.random()*colours.length)]; }
-	while ( new_jazz==old_jazz );
-	old_jazz=new_jazz;
-	return (new_jazz);
-}
-
-function jazzy(hip, jive) {
-	var new_jive;
-	do { new_jive=colours[Math.floor(Math.random()*colours.length)]; }
-	while (new_jive==hip[jive]);
-	hip[jive]=new_jive;
-}
-
-function scat(no) {
-	var yes;
-	no=Math.abs(no);
-	do { yes=2+Math.floor(Math.random()*3); }
-	while ( no==yes );
-	return (yes);
-}
-
-function groovy() {
-  var i;
-  for (i=0; i<effects*10; i+=10) {
-	h[i]+=h[i+2];
-	h[i+1]+=h[i+3];
-	if (h[i+1]-h[i]<5) {
-	  h[i+4]=h[i+2]; 
-	  h[i+2]=h[i+3];
-	  h[i+3]=h[i+4];
-	  jazzy(h[i+5], 'backgroundColor');
-	}
-    if (h[i]<-border) {
-		if (h[i+2]<0 && Math.random()<1/border) {
-			h[i+2]=scat(h[i+3]);
-			jazzy(h[i+5], 'borderTopColor');
-		}
-	}
-	if (h[i+1]>shigh) {
-		if (h[i+3]>0 && Math.random()<1/border) {
-			h[i+3]=-scat(h[i+2]);
-			jazzy(h[i+5], 'borderBottomColor');
-		}
-	}
-	h[i+5].top=h[i]+"px";
-    h[i+5].height=(h[i+1]-h[i])+"px";
-
-	v[i]+=v[i+2];
-	v[i+1]+=v[i+3];
-	if (v[i+1]-v[i]<5) {
-	  v[i+4]=v[i+2];
-	  v[i+2]=v[i+3];
-	  v[i+3]=v[i+4];
-	  jazzy(v[i+5], 'backgroundColor');
-	}
-	if (v[i]<-border) {
-		if (v[i+2]<0 && Math.random()<1/border) {
-			v[i+2]=scat(v[i+3]);
-			jazzy(v[i+5], 'borderLeftColor');
-		}
-	}
-	if (v[i+1]>swide) {
-		if (v[i+3]>0 && Math.random()<1/border) {
-			v[i+3]=-scat(v[i+2]);
-			jazzy(v[i+5], 'borderRightColor');
-		}
-	}
-	v[i+5].left=v[i]+"px";
-    v[i+5].width=(v[i+1]-v[i])+"px";
-  }
-}
-
-window.onresize=set_width;
-function set_width() {
-  var sw_min=999999;
-  var sh_min=999999;
-  if (document.documentElement && document.documentElement.clientWidth) {
-    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
-    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
-  }
-  if (typeof(self.innerWidth)!="undefined" && self.innerWidth) {
-    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
-    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
-  }
-  if (document.body.clientWidth) {
-    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
-    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
-  }
-  if (sw_min==999999 || sh_min==999999) {
-    sw_min=800;
-    sh_min=600;
-  }
-  swide=sw_min;
-  shigh=sh_min;
-  boddie.style.height=shigh+"px";
-} 
-// ]]>
-</script>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -287,7 +90,161 @@ div {
   <div class="body">2</div>
 </section>
 
+
+		<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>lorem ipsum dolorosa sit amet</title>
+    <!-- The style.css file allows you to change the look of your web pages.
+         If you include the next line in all your web pages, they will all share the same look.
+         This makes it easier to make new pages for your site. -->
+    <link href="jadestyle2.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <h1>Welcome to my Website!</h1>
+    
+        
+    <div class=box-nobottom>
+    <h4>Testing 1 2 3</h4>
+    <p>This is a paragraph! Here's how you make a link: <a href="https://neocities.org">Neocities</a>.</p>
+
+    <p>Here's how you can make <strong>bold</strong> and <em>italic</em> text.</p>
+
+    <p>Here's how you can add an image:</p>
+    <img src="/neocities.png">
+
+    <p>Here's how to make a list:</p>
+
+    <ul>
+      <li>First thing</li>
+      <li>Second thing</li>
+      <li>Third thing</li>
+    </ul>
+    
+    <center>This text is centered!</center>
+    <br/>    
+    <small>And this is very small.</small>
+    <p>Now for something more advanced: </p>
+    
+    <div class=profile-left><img class=roundimg src=https://eggramen.neocities.org/bluesun.png width=250px> <br/><div class=spacey><center>a captioned picture!</center></div></div>
+    
+    <div class=profile-right>
+    <h4>A Profile</h4>
+    <p><b>Name: </b>Lorem Ipsum</p>
+    <p><b>Item Two: </b>Dolor Sit Amet</p>
+    <p><b>Created: </b>2019</p>
+    <p><b>Item Four: </b>Consectetur Adipiscing Elit, Sed Do Eiusmod</p>
+    <p><b>Item Five: </b>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+    <br/>
+    
+    
+    </div><br/><br/>
+    
+    <p>And then, buttons!</p>
+    
+    </div>
+    
+    
+    <div class=leftright >
+    <div class=leftbox>
+      <li class=buttons>dfksjdhfkdj</li>
+      <li class=buttons>aaaaaaaaaaaaaa</li>
+      <li class=buttons>bees</li>
+    </div>
+    <div class=rightbox>
+      <li class=buttons>ta>FFFFFF</li>
+      <li class=buttons>(WIP)</li>
+      <li class=buttons>Stuff n Things</li>
+    </div>
+    </div>
+    
+    <div class=box-middle>
+
+    <p>Fun, huh?</p>
+    
+    <p>And that's not all.</p>
+    
+    </div>
+    <div class=box-notop>This box has no top. It's meant to go below button segments, but not above.</div>
+    
+    <div class=box-nobottom>This box has no bottom. It goes before button segments, but not below.</div>
+    <div class=box-middle>This box has no top or bottom! It's meant to go in between button segments.</div>
+    
+    <div class=box-notop>
+    (Here's a no-top box for full demonstration of that little feature.)
+    </div>
+    
+    <div class=box-narrow>There's also narrow boxes! Haven't done much with these yet. Meh. Maybe they'll see use someday. Either way, they're fun.</div>
+    
+    <div class=box>
+    <div class=box-inner><span class=spacey2><a href="">Title</a></span>
+    <p><strong>Summary: </strong> SUMMARY.</p>
+    <p><strong>Pairings:</strong> PAIRINGS</p>
+    <p><strong>Content:</strong> CONTENT. <span class="pg">(PG)</span></p>
+    <p>123 words</p>
+    </div>
+    <br/>
+    <div class=box-inner><span class=spacey2><a href="">Title</a></span>
+    <p><strong>Summary: </strong> SUMMARY.</p>
+    <p><strong>Pairings:</strong> PAIRINGS</p>
+    <p><strong>Content:</strong> CONTENT. <span class="teen">(TEEN)</span></p>
+    <p>4567 words</p>
+    </div>
+    <br/>
+    <div class=box-inner><span class=spacey2><a href="">Title</a></span>
+    <p><strong>Summary: </strong> SUMMARY.</p>
+    <p><strong>Pairings:</strong> PAIRINGS</p>
+    <p><strong>Content:</strong> CONTENT. <span class="mature">(MATURE)</span></p>
+    <p>890 words</p>
+    </div>
+    <br/>
+    <div class=box-inner><span class=spacey2><a href="">Title</a></span>
+    <p><strong>Summary: </strong> SUMMARY.</p>
+    <p><strong>Pairings:</strong> PAIRINGS</p>
+    <p><strong>Content:</strong> CONTENT. <span class="e">(???)</span></p>
+    <p>123456789 words (wow, that's a lot of... whatever this is is...)</p>
+    </div>
+    </div>
+    
+    <div class=box>Uhhh... also other stuff I guess?</div><br/>
+    
+    <div class=tag3><strong>I'm a label!</strong></div>
+    <div class=box>Check it out! There's a little label on the right-hand side of this box. It looks nicest when kept short and sweet :).</div>
+    
+    <div class=box-nobottom>
+
+    <p>To learn more HTML/CSS, check out these <a href="https://neocities.org/tutorials">tutorials</a>!</p>
+    <p>Also here have some links.</p>
+    
+    </div>
+    
+    
+    <div class=leftright>    
+    <div class=leftbox><li class=buttons><a href=index.html>Home</a></li>
+    <li class=buttons><a href="/jadepages/index.html">Jade Pages</a></li>
+    </div>
+    <div class=rightbox><li class=buttons><a href=testdirectory.html>Back</a></li>
+    <li class=buttons><a href="/jadetest.html">Old Jade Style</a></li>
+    </div>   
+    </div>
+    
+    <div class=box-notop>
+    <center>
+    <small>This site hosted by</small>
+    <br/>
+    <img src=neo.gif>
+    </center>
+    </div>
+    
+    
+    <div class=sideimg><img class=roundimg2 src="wood.gif" width=350px><br/><p>a large tall image can go here.</p></div>
+  </body>
+</html>
+
 <title>About</title>
+
+		
 	 
 
 	
