@@ -131,14 +131,23 @@ margin-left: 50px;*/
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px white; 
+  box-shadow: inset 0 0 5px grey; 
   border-radius: 10px;
+	
+
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
  background: url("https://bettysgraphics.neocities.org/images/backgrounds/rocks.jpg");
   border-radius: 10px;
+
+	margin:0;
+    padding:0;
+    width:16px;
+    --scrollthumb-height: 50%;
+    appearance: slider-vertical;
+    -webkit-appearance: slider-vertical;
 }
 
 /* Handle on hover */
